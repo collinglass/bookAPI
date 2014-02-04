@@ -4,14 +4,24 @@ body {
   color: rgb(255, 255, 255);
 }
 
-button {
-  display: block;
+.element-2 button {
+  width: 46.7352185089%;
+  height: 48px;
+  margin: 30px 0 0 25.706940874%;
+  background-color: rgba(0, 255, 186, 0.79);
+}
+
+.element-3 button {
   width: 47.8149100257%;
   height: 40px;
-  margin: 287px 0 0 26.735218509%;
-  border-radius: 3px;
+  margin: 119px 0 0 26.735218509%;
   background-color: rgb(231, 39, 39);
-  font-size: 1.125em;
+}
+
+button {
+  display: block;
+  border-radius: 3px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 1.38;
   text-align: center;
@@ -53,6 +63,7 @@ img {
   right: 0;
   z-index: 3;
   width: 960px;
+  height: 57px;
   margin: auto;
   padding-bottom: 27px;
   background-color: rgb(20, 16, 16);
@@ -62,7 +73,6 @@ img {
   top: 191px;
   width: 25%;
   height: 50%;
-  padding-bottom: 44px;
   background-size: auto auto;
   box-shadow: 0 2px 5px rgba(0, 0, 0, .5);
   opacity: 0.75;
@@ -79,35 +89,45 @@ img {
   z-index: 2;
 }
 
+a {
+  color: rgb(255, 255, 255);
+}
+
 .text-1 {
   float: left;
   width: 6.875%;
-  margin: 30px 0 0 1.5625%;
+  margin: 18px 0 0 1.5625%;
   color: rgb(255, 255, 255);
 }
 
 .text-2 {
   float: left;
-  margin: 30px 0 0 12.5%;
+  margin: 18px 0 0 12.5%;
   color: rgb(255, 255, 255);
 }
 
 .text-3 {
   float: left;
-  margin: 30px 0 0 5.8333333333%;
+  margin: 18px 0 0 5.8333333333%;
   color: rgb(255, 255, 255);
 }
 
 .text-4 {
   float: left;
-  margin: 30px 0 0 4.5833333333%;
+  margin: 18px 0 0 4.5833333333%;
   color: rgb(255, 255, 255);
 }
 
 .text-5 {
-  width: 51.1568123392%;
-  margin: 138px 0 0 24.4215938303%;
-  font-size: 3.125em;
+  width: 78.9203084832%;
+  margin: 30px 0 0 9.7686375321%;
+  font-size: 50px;
+  color: rgb(0, 0, 0);
+}
+
+.text-6 {
+  margin: 99px 0 0 24.1645244216%;
+  font-size: 40px;
   color: rgb(0, 0, 0);
 }
 

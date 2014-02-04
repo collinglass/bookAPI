@@ -92,10 +92,9 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/books/", BookListHandler).Methods("GET")
 	r.HandleFunc("/api/books/{id:[0-9]+}", BookHandler).Methods("GET")
-	//r.HandleFunc("/api/books/:id", BookHandler).Methods("GET")
 
 	http.Handle("/api/", r)
-	http.Handle("/", logHandler(http.FileServer(http.Dir("./app/"))))
+	http.Handle("/", logHandler(http.FileServer(http.Dir("../app/"))))
 
 	log.Println("Listening...")
 	panic(http.ListenAndServe(":3000", nil))
