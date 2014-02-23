@@ -10,31 +10,41 @@ import (
 )
 
 type Epub struct {
-	Metadata struct {
-		title       []string
-		language    []string
-		identifier  []string
-		creator     []string
-		subject     []string
-		description []string
-		publisher   []string
-		contributor []string
-		date        []string
-		epubType    []string
-		format      []string
-		source      []string
-		relation    []string
-		coverage    []string
-		rights      []string
-		meta        []string
-	}
-	Data struct {
-		Chapter []struct {
-			Section []struct {
-				text []string
-			}
-		}
-	}
+	metadata Metadata
+	data     *Data
+}
+
+type Metadata struct {
+	title       []string
+	language    []string
+	identifier  []string
+	creator     []string
+	subject     []string
+	description []string
+	publisher   []string
+	contributor []string
+	date        []string
+	epubType    []string
+	format      []string
+	source      []string
+	relation    []string
+	coverage    []string
+	rights      []string
+	meta        []string
+}
+
+type Data struct {
+	chapter []Chapter
+}
+
+type Chapter struct {
+	title   string
+	section []Section
+}
+
+type Section struct {
+	title string
+	text  []string
 }
 
 func ExtractMetadata(file string) (Epub, error) {
@@ -48,34 +58,65 @@ func ExtractMetadata(file string) (Epub, error) {
 	defer book.Close()
 
 	// Extract Metadata
-	temp.Metadata.title, _ = book.Metadata("title")
-	temp.Metadata.language, _ = book.Metadata("language")
-	temp.Metadata.identifier, _ = book.Metadata("identifier")
-	temp.Metadata.creator, _ = book.Metadata("creator")
-	temp.Metadata.subject, _ = book.Metadata("subject")
-	temp.Metadata.description, _ = book.Metadata("description")
-	temp.Metadata.publisher, _ = book.Metadata("publisher")
-	temp.Metadata.contributor, _ = book.Metadata("contributor")
-	temp.Metadata.date, _ = book.Metadata("date")
-	temp.Metadata.epubType, _ = book.Metadata("type")
-	temp.Metadata.format, _ = book.Metadata("format")
-	temp.Metadata.source, _ = book.Metadata("source")
-	temp.Metadata.relation, _ = book.Metadata("relation")
-	temp.Metadata.coverage, _ = book.Metadata("coverage")
-	temp.Metadata.rights, _ = book.Metadata("rights")
-	temp.Metadata.meta, _ = book.Metadata("meta")
+	temp.metadata.title, _ = book.Metadata("title")
+	temp.metadata.language, _ = book.Metadata("language")
+	temp.metadata.identifier, _ = book.Metadata("identifier")
+	temp.metadata.creator, _ = book.Metadata("creator")
+	temp.metadata.subject, _ = book.Metadata("subject")
+	temp.metadata.description, _ = book.Metadata("description")
+	temp.metadata.publisher, _ = book.Metadata("publisher")
+	temp.metadata.contributor, _ = book.Metadata("contributor")
+	temp.metadata.date, _ = book.Metadata("date")
+	temp.metadata.epubType, _ = book.Metadata("type")
+	temp.metadata.format, _ = book.Metadata("format")
+	temp.metadata.source, _ = book.Metadata("source")
+	temp.metadata.relation, _ = book.Metadata("relation")
+	temp.metadata.coverage, _ = book.Metadata("coverage")
+	temp.metadata.rights, _ = book.Metadata("rights")
+	temp.metadata.meta, _ = book.Metadata("meta")
 
 	return temp, err
 }
 
 func GetMetadata(file Epub) interface{} {
 	// Return file Metadata
-	return file.Metadata
+	return file.metadata
 }
 
 func ExtractData(file string) (Epub, error) {
 	// temporary Epub struct
-	var temp Epub
+
+	temp := &Epub{
+		metadata: Metadata{
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+			make([]string, 1),
+		},
+		data: &Data{make([]Chapter, 1)},
+	}
+
+	// Initialize inner chapter
+	chapter := &Chapter{"", make([]Section, 1, 15)}
+	temp.data.chapter[0] = *chapter
+
+	// Initialize inner section
+	section := &Section{"", make([]string, 1, 10)}
+	temp.data.chapter[0].section[0] = *section
+
+	// Create function to grow slice if not big enough
 
 	// open epub
 	book, err := epubgo.Open(file)
@@ -91,12 +132,12 @@ func ExtractData(file string) (Epub, error) {
 	// Create Navigation Iterator
 	naviter, err := book.Navigation()
 	if err != nil {
-		return temp, err
+		return *temp, err
 	}
 
 	/* Print all the titles using preorder traversal variant */
-
-	log.Print(naviter.Title())
+	//temp.Data.Chapter = make([]Chapter struct, 10)
+	temp.data.chapter[0].title = naviter.Title()
 	naviter.In()
 	log.Print(naviter.Title())
 
@@ -115,7 +156,7 @@ func ExtractData(file string) (Epub, error) {
 		}
 	}
 
-	return temp, err
+	return *temp, err
 }
 
 func ReadData() {
@@ -178,5 +219,5 @@ func main() {
 		log.Panic(err)
 	}
 
-	fmt.Println(test.Metadata)
+	fmt.Println(test.metadata)
 }
