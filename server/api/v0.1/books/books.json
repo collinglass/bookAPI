@@ -1,15 +1,22 @@
 {
-	"books": [
+	"category": "all",
+    "books": [
 	{
 		"id": 1,
 		"title": "The Prince", 
 		"author": "Niccolo Machiavelli",
-		"numChapters": "5"
+		"chapters": "5"
 		},
     {
     	"id": 2, 
     	"name": "The Art of War", 
     	"author": "Sun Tzu",
-    	"numChapters": "13"
+    	"chapters": "13"
+    },
+    {
+    	"id": 3,
+    	"name": "The Strange Countess",
+    	"author": "Edgar Wallace",
+    	"chapters": ""
     }
   ]}
