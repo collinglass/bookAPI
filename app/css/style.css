@@ -1,0 +1,145 @@
+nav * {
+	line-height: 52px;
+	position: sticky;
+}
+
+#name {
+	margin-top: 10px;
+}
+#head {
+/*	 width: auto;
+    height: auto;*/
+    background-color: #3366CC;
+/*    overflow:auto;*/
+}
+
+#head * {
+	color: #fff;
+}
+#book {
+	background-color: #Ebb035;
+}
+
+#books *{
+	background-color: #fff;
+}
+
+#team{
+	background-color: #06a2cb
+}
+
+#team *{
+	color: #fff;
+}
+
+#contact{
+	background-color: #191919;
+}
+
+#contact * {
+	color: #fff;
+}
+
+.bmargin {
+	margin-bottom: 80px;
+}
+#tweeter{
+	background-color: rgba(0,0,0,0.1);
+	padding: 20px;
+	margin: 0;
+}
+.bmargin-top{
+	margin-top: 80px;
+}
+
+.mmargin {
+	margin-bottom: 40px;
+}
+
+.mmargin-top{
+	margin-top: 40px;
+}
+.smargin {
+	margin-bottom: 20px;
+}
+
+.smargin-top{
+	margin-top: 20px;
+}
+.secondary{
+	opacity: 0.7;
+}
+.tertiary{
+	opacity: 0.3;
+}
+.slim{
+	font-weight: 200;
+}
+.nowrap{
+	white-space: nowrap;
+}
+.pos-rel{
+	position: relative;
+}
+.down-triangle{
+	width: 0px;
+	border-style: solid;
+	border-width: 30px 35px 0 35px;
+	border-color: #ffffff transparent transparent transparent;
+	position: absolute;
+	margin: auto;
+	bottom: -20px;
+	left: 45%
+}
+ .smallpic>img{
+    height:325px;
+    width:275px;
+}
+.circle {
+	border-radius: 1000px;
+	border:12px solid #02708d;
+}
+.inline {
+	display: inline-block;
+}
+p{
+
+	font-size: 90%;
+line-height: 1.8em;
+}
+.hoverup{
+	opacity: 0.7;
+	position: relative;
+}
+.hoverup:hover{
+	top: -4px;
+	opacity: 0.9;
+}
+.trans{
+	-webkit-transition:all 0.5s cubic-bezier(0,.91,.43,.98);
+	-moz-transition:all 0.5s cubic-bezier(0,.91,.43,.98);
+	-ms-transition:all 0.5s cubic-bezier(0,.91,.43,.98);
+	-o-transition:all 0.5s cubic-bezier(0,.91,.43,.98);
+	transition:all 0.5s cubic-bezier(0,.91,.43,.98);
+
+}
+
+input, textarea {
+	line-height: 50px;
+	min-height: 50px !important;
+	border-radius: 7px;
+	padding:10px !important;
+	background-color: #131313 !important;
+	border:none !important;
+	outline: none !important; 
+	box-shadow: !important;
+}
+
+input:focus, textarea:focus{
+	background-color: #1d1d1d !important;
+}
+
+textarea {
+	min-height: 200px !important;
+}
+
