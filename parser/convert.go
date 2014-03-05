@@ -11,7 +11,7 @@ import (
 
 type Epub struct {
 	metadata Metadata
-	data     *Data
+	data     Data
 }
 
 type Metadata struct {
@@ -45,6 +45,109 @@ type Chapter struct {
 type Section struct {
 	title string
 	text  []string
+}
+
+func ExtractData(file string) (Epub, error) {
+	temp := initEpub()
+
+	// open epub
+	book, err := epubgo.Open(file)
+
+	// defer close until end of func
+	defer book.Close()
+
+	fmt.Println(book.MetadataFields())
+
+	/*
+		// Extract data
+		it, err := book.Spine()
+
+		var page io.Reader
+
+		page = it.Open()
+		defer page.Close()
+
+		it.Next()
+
+		/* To extract data we must perform a preorder
+		traversal and create a new struct for every new data set */
+
+	return *temp, err
+}
+
+func ReadData(file string) error {
+	// open input file
+	//temp := initEpub()
+
+	// open epub
+	book, err := epubgo.Open(file)
+	if err != nil {
+		panic(err)
+	}
+	// defer close until end of func
+	defer book.Close()
+
+	it, err := book.Spine()
+	if err != nil {
+		panic(err)
+	}
+	it.Next()
+	it.Next()
+	page, err := it.Open()
+	if err != nil {
+		panic(err)
+	}
+
+	defer page.Close()
+
+	// make a read buffer
+	r := bufio.NewReader(page)
+
+	// open output file
+	fo, err := os.Create("output.txt")
+	if err != nil {
+		panic(err)
+	}
+	// close fo on exit and check for its returned error
+	defer func() {
+		if err := fo.Close(); err != nil {
+			panic(err)
+		}
+	}()
+	// make a write buffer
+	w := bufio.NewWriter(fo)
+
+	// make a buffer to keep chunks that are read
+	buf := make([]byte, 1024)
+	for {
+		// read a chunk
+		n, err := r.Read(buf)
+		if err != nil && err != io.EOF {
+			panic(err)
+		}
+		if n == 0 {
+			break
+		}
+
+		// write a chunk
+		if _, err := w.Write(buf[:n]); err != nil {
+			panic(err)
+		}
+	}
+
+	if err = w.Flush(); err != nil {
+		panic(err)
+	}
+	return err
+}
+
+func main() {
+
+	err := ReadData("test2.epub")
+
+	if err != nil {
+		log.Panic(err)
+	}
 }
 
 func ExtractMetadata(file string) (Epub, error) {
@@ -83,7 +186,7 @@ func GetMetadata(file Epub) interface{} {
 	return file.metadata
 }
 
-func ExtractData(file string) (Epub, error) {
+func initEpub() *Epub {
 	// temporary Epub struct
 
 	temp := &Epub{
@@ -105,9 +208,12 @@ func ExtractData(file string) (Epub, error) {
 			make([]string, 1),
 			make([]string, 1),
 		},
-		data: &Data{make([]Chapter, 1)},
+		data: Data{},
 	}
 
+	//initialize data
+	data := &Data{make([]Chapter, 1)}
+	temp.data = *data
 	// Initialize inner chapter
 	chapter := &Chapter{"", make([]Section, 1, 15)}
 	temp.data.chapter[0] = *chapter
@@ -116,28 +222,19 @@ func ExtractData(file string) (Epub, error) {
 	section := &Section{"", make([]string, 1, 10)}
 	temp.data.chapter[0].section[0] = *section
 
-	// Create function to grow slice if not big enough
+	return temp
+}
 
-	// open epub
-	book, err := epubgo.Open(file)
-
-	// defer close until end of func
-	defer book.Close()
-
-	// Extract data
-
-	/* To extract data we must perform an preorder
-	traversal and create a new interface for every new data set */
+func printIndex(book *epubgo.Epub) error {
 
 	// Create Navigation Iterator
 	naviter, err := book.Navigation()
 	if err != nil {
-		return *temp, err
+		return err
 	}
 
 	/* Print all the titles using preorder traversal variant */
-	//temp.Data.Chapter = make([]Chapter struct, 10)
-	temp.data.chapter[0].title = naviter.Title()
+	log.Println(naviter.Title())
 	naviter.In()
 	log.Print(naviter.Title())
 
@@ -151,73 +248,8 @@ func ExtractData(file string) (Epub, error) {
 				naviter.Next()
 				log.Print(naviter.Title())
 			}
-			log.Print(naviter.Title())
 			naviter.Out()
 		}
 	}
-
-	return *temp, err
-}
-
-func ReadData() {
-	// open input file
-	fi, err := os.Open("input.txt")
-	if err != nil {
-		panic(err)
-	}
-	// close fi on exit and check for its returned error
-	defer func() {
-		if err := fi.Close(); err != nil {
-			panic(err)
-		}
-	}()
-	// make a read buffer
-	r := bufio.NewReader(fi)
-
-	// open output file
-	fo, err := os.Create("output.txt")
-	if err != nil {
-		panic(err)
-	}
-	// close fo on exit and check for its returned error
-	defer func() {
-		if err := fo.Close(); err != nil {
-			panic(err)
-		}
-	}()
-	// make a write buffer
-	w := bufio.NewWriter(fo)
-
-	// make a buffer to keep chunks that are read
-	buf := make([]byte, 1024)
-	for {
-		// read a chunk
-		n, err := r.Read(buf)
-		if err != nil && err != io.EOF {
-			panic(err)
-		}
-		if n == 0 {
-			break
-		}
-
-		// write a chunk
-		if _, err := w.Write(buf[:n]); err != nil {
-			panic(err)
-		}
-	}
-
-	if err = w.Flush(); err != nil {
-		panic(err)
-	}
-}
-
-func main() {
-
-	test, err := ExtractData("test.epub")
-
-	if err != nil {
-		log.Panic(err)
-	}
-
-	fmt.Println(test.metadata)
+	return err
 }
