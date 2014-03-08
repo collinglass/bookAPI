@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"code.google.com/p/go.net/html"
 	"fmt"
 	"git.gitorious.org/go-pkg/epubgo.git"
 	"io"
@@ -52,41 +53,16 @@ func ExtractData(file string) (Epub, error) {
 
 	// open epub
 	book, err := epubgo.Open(file)
-
-	// defer close until end of func
-	defer book.Close()
-
-	fmt.Println(book.MetadataFields())
-
-	/*
-		// Extract data
-		it, err := book.Spine()
-
-		var page io.Reader
-
-		page = it.Open()
-		defer page.Close()
-
-		it.Next()
-
-		/* To extract data we must perform a preorder
-		traversal and create a new struct for every new data set */
-
-	return *temp, err
-}
-
-func ReadData(file string) error {
-	// open input file
-	//temp := initEpub()
-
-	// open epub
-	book, err := epubgo.Open(file)
 	if err != nil {
 		panic(err)
 	}
+
 	// defer close until end of func
 	defer book.Close()
 
+	//fmt.Println(book.MetadataFields())
+
+	// Create iterator
 	it, err := book.Spine()
 	if err != nil {
 		panic(err)
@@ -100,55 +76,59 @@ func ReadData(file string) error {
 
 	defer page.Close()
 
-	// make a read buffer
-	r := bufio.NewReader(page)
+	// parse page
+	parseHtml(page, temp)
 
-	// open output file
-	fo, err := os.Create("output.txt")
-	if err != nil {
-		panic(err)
-	}
-	// close fo on exit and check for its returned error
-	defer func() {
-		if err := fo.Close(); err != nil {
-			panic(err)
-		}
-	}()
-	// make a write buffer
-	w := bufio.NewWriter(fo)
+	fmt.Println(*temp)
 
-	// make a buffer to keep chunks that are read
-	buf := make([]byte, 1024)
+	return *temp, err
+}
+
+func parseHtml(r io.Reader, epub *Epub) {
+	d := html.NewTokenizer(r)
+	isChap := false
 	for {
-		// read a chunk
-		n, err := r.Read(buf)
-		if err != nil && err != io.EOF {
-			panic(err)
+		// token type
+		tokenType := d.Next()
+		if tokenType == html.ErrorToken {
+			return
 		}
-		if n == 0 {
-			break
-		}
+		token := d.Token()
+		switch tokenType {
+		case html.StartTagToken:
+			if token.Data == "h1" {
+				isChap = true
+			}
+		case html.TextToken:
+			if isChap == true {
+				chap := &Chapter{token.Data, make([]Section, 1)}
+				epub.data.chapter = append(epub.data.chapter, *chap)
+				//fmt.Println(*epub)
+			}
+		case html.EndTagToken:
+			if token.Data == "h1" {
+				isChap = false
+			}
+		case html.SelfClosingTagToken: // <tag/>
 
-		// write a chunk
-		if _, err := w.Write(buf[:n]); err != nil {
-			panic(err)
 		}
 	}
-
-	if err = w.Flush(); err != nil {
-		panic(err)
-	}
-	return err
+	return
 }
 
 func main() {
 
-	err := ReadData("test2.epub")
+	_, err := ExtractData("fingerprint.epub")
 
 	if err != nil {
 		log.Panic(err)
 	}
 }
+
+// ************************************************************
+// ************************************************************
+// ************************************************************
+// ************************************************************
 
 func ExtractMetadata(file string) (Epub, error) {
 	// temporary Epub struct
@@ -250,6 +230,72 @@ func printIndex(book *epubgo.Epub) error {
 			}
 			naviter.Out()
 		}
+	}
+	return err
+}
+
+func ReadData(file string) error {
+	// open input file
+	//temp := initEpub()
+
+	// open epub
+	book, err := epubgo.Open(file)
+	if err != nil {
+		panic(err)
+	}
+	// defer close until end of func
+	defer book.Close()
+
+	it, err := book.Spine()
+	if err != nil {
+		panic(err)
+	}
+	it.Next()
+	it.Next()
+	page, err := it.Open()
+	if err != nil {
+		panic(err)
+	}
+
+	defer page.Close()
+
+	// make a read buffer
+	r := bufio.NewReader(page)
+
+	// open output file
+	fo, err := os.Create("output3.txt")
+	if err != nil {
+		panic(err)
+	}
+	// close fo on exit and check for its returned error
+	defer func() {
+		if err := fo.Close(); err != nil {
+			panic(err)
+		}
+	}()
+	// make a write buffer
+	w := bufio.NewWriter(fo)
+
+	// make a buffer to keep chunks that are read
+	buf := make([]byte, 1024)
+	for {
+		// read a chunk
+		n, err := r.Read(buf)
+		if err != nil && err != io.EOF {
+			panic(err)
+		}
+		if n == 0 {
+			break
+		}
+
+		// write a chunk
+		if _, err := w.Write(buf[:n]); err != nil {
+			panic(err)
+		}
+	}
+
+	if err = w.Flush(); err != nil {
+		panic(err)
 	}
 	return err
 }
