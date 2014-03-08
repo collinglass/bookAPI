@@ -87,6 +87,8 @@ func ExtractData(file string) (Epub, error) {
 func parseHtml(r io.Reader, epub *Epub) {
 	d := html.NewTokenizer(r)
 	isChap := false
+	isPar := false
+	index := 0
 	for {
 		// token type
 		tokenType := d.Next()
@@ -99,15 +101,26 @@ func parseHtml(r io.Reader, epub *Epub) {
 			if token.Data == "h1" {
 				isChap = true
 			}
+			if token.Data == "p" {
+				isPar = true
+			}
 		case html.TextToken:
 			if isChap == true {
 				chap := &Chapter{token.Data, make([]Section, 1)}
 				epub.data.chapter = append(epub.data.chapter, *chap)
-				//fmt.Println(*epub)
+			}
+			if isPar == true {
+				section := &Section{"", make([]string, 1)}
+				section.text[0] = token.Data
+				epub.data.chapter[index].section = append(epub.data.chapter[index].section, *section)
 			}
 		case html.EndTagToken:
 			if token.Data == "h1" {
 				isChap = false
+				index++
+			}
+			if token.Data == "p" {
+				isPar = false
 			}
 		case html.SelfClosingTagToken: // <tag/>
 
