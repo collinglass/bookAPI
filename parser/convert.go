@@ -1,61 +1,24 @@
+/* Begin convert.go */
 package parser
 
 import (
 	"bufio"
 	"code.google.com/p/go.net/html"
 	"encoding/json"
-	//"fmt"
+	"errors"
+	"fmt"
 	"git.gitorious.org/go-pkg/epubgo.git"
+	"github.com/collinglass/bookAPI/schema"
 	"io"
-	"io/ioutil"
-	//"log"
+	"log"
 	"os"
 )
 
-type Epub struct {
-	Metadata Metadata
-	Data     Data
-}
-
-type Metadata struct {
-	Title       []string
-	Language    []string
-	Identifier  []string
-	Creator     []string
-	Subject     []string
-	Description []string
-	Publisher   []string
-	Contributor []string
-	Date        []string
-	EpubType    []string
-	Format      []string
-	Source      []string
-	Relation    []string
-	Coverage    []string
-	Rights      []string
-	Meta        []string
-}
-
-type Data struct {
-	Chapter []Chapter
-}
-
-type Chapter struct {
-	Title   string
-	Section []Section
-	Text    []string
-}
-
-type Section struct {
-	Title string
-	Text  []string
-}
-
-func initEpub() *Epub {
+func initEpub() *schema.Epub {
 
 	// temporary Epub struct
-	temp := &Epub{
-		Metadata: Metadata{
+	temp := &schema.Epub{
+		Metadata: schema.Metadata{
 			make([]string, 1),
 			make([]string, 1),
 			make([]string, 1),
@@ -73,24 +36,20 @@ func initEpub() *Epub {
 			make([]string, 1),
 			make([]string, 1),
 		},
-		Data: Data{},
+		Data: schema.Data{},
 	}
 
 	//initialize data
-	Data := &Data{make([]Chapter, 1)}
+	Data := &schema.Data{make([]schema.Chapter, 1)}
 	temp.Data = *Data
 	// Initialize inner chapter
-	Chapter := &Chapter{"", make([]Section, 1, 15), make([]string, 1, 15)}
+	Chapter := &schema.Chapter{"", make([]string, 1, 20)}
 	temp.Data.Chapter[0] = *Chapter
-
-	// Initialize inner section
-	Section := &Section{"", make([]string, 1, 10)}
-	temp.Data.Chapter[0].Section[0] = *Section
 
 	return temp
 }
 
-func ExtractMetadata(file string, temp *Epub) error {
+func ExtractMetadata(file string, temp *schema.Epub) error {
 
 	// open epub
 	book, err := epubgo.Open(file)
@@ -119,33 +78,25 @@ func ExtractMetadata(file string, temp *Epub) error {
 	return err
 }
 
-func ExtractData(file string) (Epub, error) {
+func ExtractData(file string) error {
 	// Initialize temporary epub to be returned
 	temp := initEpub()
 
 	// open epub
 	book, err := epubgo.Open(file)
-	if err != nil {
-		panic(err)
-	}
 
 	// defer close until end of func
 	defer book.Close()
 
 	// Create iterator
 	it, err := book.Spine()
-	if err != nil {
-		panic(err)
-	}
+
 	// Go to page with content
 	it.Next()
 	it.Next()
 
 	// Open page
 	page, err := it.Open()
-	if err != nil {
-		panic(err)
-	}
 
 	// Defer page close til aftr done
 	defer page.Close()
@@ -159,18 +110,59 @@ func ExtractData(file string) (Epub, error) {
 	// Epub object for JSON Marshal
 	epub := *temp
 
+	fmt.Println(epub)
+
 	// JSON Marshal
 	jason, err := json.Marshal(epub)
-	if err != nil {
-		panic(err)
+
+	// open output file
+	fo, err := os.Create("./server/api/v0.1/books/output.json")
+
+	// close fo on exit and check for its returned error
+	defer func() {
+		err = fo.Close()
+	}()
+
+	// Notify user
+	log.Println("JSONifying:", file)
+
+	// make a write buffer
+	w := bufio.NewWriter(fo)
+
+	// make a buffer to keep chunks that are read
+	buf := make([]byte, 1024)
+	for {
+		// chunk
+		chunk := 1024
+
+		// jason bytes is empty, break
+		if len(jason) == 0 {
+			break
+		}
+
+		// if length of jason is less than 1024, set chunk
+		if len(jason) < 1024 {
+			chunk = len(jason)
+		}
+
+		// Remove a chunk
+		buf = jason[:chunk]
+		jason = jason[chunk:len(jason)]
+
+		// write a chunk
+		if _, err := w.Write(buf); err != nil {
+			panic(err)
+		}
 	}
 
-	err = ioutil.WriteFile("./server/api/v0.1/books/output.json", jason, 0644)
+	// Flush writer
+	err = w.Flush()
 
-	return *temp, err
+	// Return epub pointer and error
+	return err
 }
 
-func parseXHTML(r io.Reader, epub *Epub) {
+func parseXHTML(r io.Reader, epub *(schema.Epub)) error {
 	// Get new Tokenizer
 	d := html.NewTokenizer(r)
 
@@ -184,7 +176,7 @@ func parseXHTML(r io.Reader, epub *Epub) {
 		tokenType := d.Next()
 		// check for error token
 		if tokenType == html.ErrorToken {
-			return
+			return errors.New("parseXHTML Failed: Error token when parsing!")
 		}
 		// Get current token
 		token := d.Token()
@@ -193,7 +185,7 @@ func parseXHTML(r io.Reader, epub *Epub) {
 
 		// Start token
 		case html.StartTagToken:
-			if token.Data == "h1" {
+			if token.Data == "h3" {
 				isChap = true
 			}
 			if token.Data == "p" {
@@ -203,7 +195,7 @@ func parseXHTML(r io.Reader, epub *Epub) {
 		// Text token
 		case html.TextToken:
 			if isChap == true {
-				chap := &Chapter{token.Data, make([]Section, 1), make([]string, 1, 15)}
+				chap := &schema.Chapter{token.Data, make([]string, 1, 20)}
 				epub.Data.Chapter = append(epub.Data.Chapter, *chap)
 			}
 			if isPar == true {
@@ -212,7 +204,7 @@ func parseXHTML(r io.Reader, epub *Epub) {
 
 		// End token
 		case html.EndTagToken:
-			if token.Data == "h1" {
+			if token.Data == "h3" {
 				isChap = false
 				index++
 			}
@@ -225,74 +217,7 @@ func parseXHTML(r io.Reader, epub *Epub) {
 
 		}
 	}
-	return
+	return nil
 }
 
-// ************************************************************
-// ************************************************************
-// ************************************************************
-// ************************************************************
-
-func ReadData(file string) error {
-
-	// open epub
-	book, err := epubgo.Open(file)
-	if err != nil {
-		panic(err)
-	}
-	// defer close until end of func
-	defer book.Close()
-
-	it, err := book.Spine()
-	if err != nil {
-		panic(err)
-	}
-	it.Next()
-	it.Next()
-	page, err := it.Open()
-	if err != nil {
-		panic(err)
-	}
-
-	defer page.Close()
-
-	// make a read buffer
-	r := bufio.NewReader(page)
-
-	// open output file
-	fo, err := os.Create("output3.txt")
-	if err != nil {
-		panic(err)
-	}
-	// close fo on exit and check for its returned error
-	defer func() {
-		if err := fo.Close(); err != nil {
-			panic(err)
-		}
-	}()
-	// make a write buffer
-	w := bufio.NewWriter(fo)
-
-	// make a buffer to keep chunks that are read
-	buf := make([]byte, 1024)
-	for {
-		// read a chunk
-		n, err := r.Read(buf)
-		if err != nil && err != io.EOF {
-			panic(err)
-		}
-		if n == 0 {
-			break
-		}
-
-		// write a chunk
-		if _, err := w.Write(buf[:n]); err != nil {
-			panic(err)
-		}
-	}
-
-	if err = w.Flush(); err != nil {
-		panic(err)
-	}
-	return err
-}
+/* End convert.go */

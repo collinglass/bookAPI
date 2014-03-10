@@ -36,7 +36,7 @@ Create Tutorial page
 
 ## TODO - Back-End
 
-Convert 12 books into json (1/12)
+Convert 12 books into json (2/12)
 
 Remove all redundancies
 
