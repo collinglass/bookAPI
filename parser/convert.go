@@ -1,189 +1,61 @@
-package main
+package parser
 
 import (
 	"bufio"
 	"code.google.com/p/go.net/html"
-	"fmt"
+	"encoding/json"
+	//"fmt"
 	"git.gitorious.org/go-pkg/epubgo.git"
 	"io"
-	"log"
+	"io/ioutil"
+	//"log"
 	"os"
 )
 
 type Epub struct {
-	metadata Metadata
-	data     Data
+	Metadata Metadata
+	Data     Data
 }
 
 type Metadata struct {
-	title       []string
-	language    []string
-	identifier  []string
-	creator     []string
-	subject     []string
-	description []string
-	publisher   []string
-	contributor []string
-	date        []string
-	epubType    []string
-	format      []string
-	source      []string
-	relation    []string
-	coverage    []string
-	rights      []string
-	meta        []string
+	Title       []string
+	Language    []string
+	Identifier  []string
+	Creator     []string
+	Subject     []string
+	Description []string
+	Publisher   []string
+	Contributor []string
+	Date        []string
+	EpubType    []string
+	Format      []string
+	Source      []string
+	Relation    []string
+	Coverage    []string
+	Rights      []string
+	Meta        []string
 }
 
 type Data struct {
-	chapter []Chapter
+	Chapter []Chapter
 }
 
 type Chapter struct {
-	title   string
-	section []Section
+	Title   string
+	Section []Section
+	Text    []string
 }
 
 type Section struct {
-	title string
-	text  []string
-}
-
-func ExtractData(file string) (Epub, error) {
-	temp := initEpub()
-
-	// open epub
-	book, err := epubgo.Open(file)
-	if err != nil {
-		panic(err)
-	}
-
-	// defer close until end of func
-	defer book.Close()
-
-	//fmt.Println(book.MetadataFields())
-
-	// Create iterator
-	it, err := book.Spine()
-	if err != nil {
-		panic(err)
-	}
-	it.Next()
-	it.Next()
-	page, err := it.Open()
-	if err != nil {
-		panic(err)
-	}
-
-	defer page.Close()
-
-	// parse page
-	parseHtml(page, temp)
-
-	fmt.Println(*temp)
-
-	return *temp, err
-}
-
-func parseHtml(r io.Reader, epub *Epub) {
-	d := html.NewTokenizer(r)
-	isChap := false
-	isPar := false
-	index := 0
-	for {
-		// token type
-		tokenType := d.Next()
-		if tokenType == html.ErrorToken {
-			return
-		}
-		token := d.Token()
-		switch tokenType {
-		case html.StartTagToken:
-			if token.Data == "h1" {
-				isChap = true
-			}
-			if token.Data == "p" {
-				isPar = true
-			}
-		case html.TextToken:
-			if isChap == true {
-				chap := &Chapter{token.Data, make([]Section, 1)}
-				epub.data.chapter = append(epub.data.chapter, *chap)
-			}
-			if isPar == true {
-				section := &Section{"", make([]string, 1)}
-				section.text[0] = token.Data
-				epub.data.chapter[index].section = append(epub.data.chapter[index].section, *section)
-			}
-		case html.EndTagToken:
-			if token.Data == "h1" {
-				isChap = false
-				index++
-			}
-			if token.Data == "p" {
-				isPar = false
-			}
-		case html.SelfClosingTagToken: // <tag/>
-
-		}
-	}
-	return
-}
-
-func main() {
-
-	_, err := ExtractData("fingerprint.epub")
-
-	if err != nil {
-		log.Panic(err)
-	}
-}
-
-// ************************************************************
-// ************************************************************
-// ************************************************************
-// ************************************************************
-
-func ExtractMetadata(file string) (Epub, error) {
-	// temporary Epub struct
-	var temp Epub
-
-	// open epub
-	book, err := epubgo.Open(file)
-
-	// defer close until end of func
-	defer book.Close()
-
-	// Extract Metadata
-	temp.metadata.title, _ = book.Metadata("title")
-	temp.metadata.language, _ = book.Metadata("language")
-	temp.metadata.identifier, _ = book.Metadata("identifier")
-	temp.metadata.creator, _ = book.Metadata("creator")
-	temp.metadata.subject, _ = book.Metadata("subject")
-	temp.metadata.description, _ = book.Metadata("description")
-	temp.metadata.publisher, _ = book.Metadata("publisher")
-	temp.metadata.contributor, _ = book.Metadata("contributor")
-	temp.metadata.date, _ = book.Metadata("date")
-	temp.metadata.epubType, _ = book.Metadata("type")
-	temp.metadata.format, _ = book.Metadata("format")
-	temp.metadata.source, _ = book.Metadata("source")
-	temp.metadata.relation, _ = book.Metadata("relation")
-	temp.metadata.coverage, _ = book.Metadata("coverage")
-	temp.metadata.rights, _ = book.Metadata("rights")
-	temp.metadata.meta, _ = book.Metadata("meta")
-
-	return temp, err
-}
-
-func GetMetadata(file Epub) interface{} {
-	// Return file Metadata
-	return file.metadata
+	Title string
+	Text  []string
 }
 
 func initEpub() *Epub {
-	// temporary Epub struct
 
+	// temporary Epub struct
 	temp := &Epub{
-		metadata: Metadata{
+		Metadata: Metadata{
 			make([]string, 1),
 			make([]string, 1),
 			make([]string, 1),
@@ -201,55 +73,167 @@ func initEpub() *Epub {
 			make([]string, 1),
 			make([]string, 1),
 		},
-		data: Data{},
+		Data: Data{},
 	}
 
 	//initialize data
-	data := &Data{make([]Chapter, 1)}
-	temp.data = *data
+	Data := &Data{make([]Chapter, 1)}
+	temp.Data = *Data
 	// Initialize inner chapter
-	chapter := &Chapter{"", make([]Section, 1, 15)}
-	temp.data.chapter[0] = *chapter
+	Chapter := &Chapter{"", make([]Section, 1, 15), make([]string, 1, 15)}
+	temp.Data.Chapter[0] = *Chapter
 
 	// Initialize inner section
-	section := &Section{"", make([]string, 1, 10)}
-	temp.data.chapter[0].section[0] = *section
+	Section := &Section{"", make([]string, 1, 10)}
+	temp.Data.Chapter[0].Section[0] = *Section
 
 	return temp
 }
 
-func printIndex(book *epubgo.Epub) error {
+func ExtractMetadata(file string, temp *Epub) error {
 
-	// Create Navigation Iterator
-	naviter, err := book.Navigation()
-	if err != nil {
-		return err
-	}
+	// open epub
+	book, err := epubgo.Open(file)
 
-	/* Print all the titles using preorder traversal variant */
-	log.Println(naviter.Title())
-	naviter.In()
-	log.Print(naviter.Title())
+	// defer close until end of func
+	defer book.Close()
 
-	for !naviter.IsLast() {
-		naviter.Next()
-		log.Print(naviter.Title())
-		if naviter.HasChildren() {
-			naviter.In()
-			log.Print(naviter.Title())
-			for !naviter.IsLast() {
-				naviter.Next()
-				log.Print(naviter.Title())
-			}
-			naviter.Out()
-		}
-	}
+	// Extract Metadata
+	(*temp).Metadata.Title, _ = book.Metadata("title")
+	(*temp).Metadata.Language, _ = book.Metadata("language")
+	(*temp).Metadata.Identifier, _ = book.Metadata("identifier")
+	(*temp).Metadata.Creator, _ = book.Metadata("creator")
+	(*temp).Metadata.Subject, _ = book.Metadata("subject")
+	(*temp).Metadata.Description, _ = book.Metadata("description")
+	(*temp).Metadata.Publisher, _ = book.Metadata("publisher")
+	(*temp).Metadata.Contributor, _ = book.Metadata("contributor")
+	(*temp).Metadata.Date, _ = book.Metadata("date")
+	(*temp).Metadata.EpubType, _ = book.Metadata("type")
+	(*temp).Metadata.Format, _ = book.Metadata("format")
+	(*temp).Metadata.Source, _ = book.Metadata("source")
+	(*temp).Metadata.Relation, _ = book.Metadata("relation")
+	(*temp).Metadata.Coverage, _ = book.Metadata("coverage")
+	(*temp).Metadata.Rights, _ = book.Metadata("rights")
+	(*temp).Metadata.Meta, _ = book.Metadata("meta")
+
 	return err
 }
 
+func ExtractData(file string) (Epub, error) {
+	// Initialize temporary epub to be returned
+	temp := initEpub()
+
+	// open epub
+	book, err := epubgo.Open(file)
+	if err != nil {
+		panic(err)
+	}
+
+	// defer close until end of func
+	defer book.Close()
+
+	// Create iterator
+	it, err := book.Spine()
+	if err != nil {
+		panic(err)
+	}
+	// Go to page with content
+	it.Next()
+	it.Next()
+
+	// Open page
+	page, err := it.Open()
+	if err != nil {
+		panic(err)
+	}
+
+	// Defer page close til aftr done
+	defer page.Close()
+
+	// Extract Metadata
+	ExtractMetadata(file, temp)
+
+	// parse page
+	parseXHTML(page, temp)
+
+	// Epub object for JSON Marshal
+	epub := *temp
+
+	// JSON Marshal
+	jason, err := json.Marshal(epub)
+	if err != nil {
+		panic(err)
+	}
+
+	err = ioutil.WriteFile("./server/api/v0.1/books/output.json", jason, 0644)
+
+	return *temp, err
+}
+
+func parseXHTML(r io.Reader, epub *Epub) {
+	// Get new Tokenizer
+	d := html.NewTokenizer(r)
+
+	// Initialize variables
+	isChap := false
+	isPar := false
+	index := 0
+
+	for {
+		// get next token
+		tokenType := d.Next()
+		// check for error token
+		if tokenType == html.ErrorToken {
+			return
+		}
+		// Get current token
+		token := d.Token()
+
+		switch tokenType {
+
+		// Start token
+		case html.StartTagToken:
+			if token.Data == "h1" {
+				isChap = true
+			}
+			if token.Data == "p" {
+				isPar = true
+			}
+
+		// Text token
+		case html.TextToken:
+			if isChap == true {
+				chap := &Chapter{token.Data, make([]Section, 1), make([]string, 1, 15)}
+				epub.Data.Chapter = append(epub.Data.Chapter, *chap)
+			}
+			if isPar == true {
+				epub.Data.Chapter[index].Text = append(epub.Data.Chapter[index].Text, token.Data)
+			}
+
+		// End token
+		case html.EndTagToken:
+			if token.Data == "h1" {
+				isChap = false
+				index++
+			}
+			if token.Data == "p" {
+				isPar = false
+			}
+
+		// Self closing token
+		case html.SelfClosingTagToken: // <tag/>
+
+		}
+	}
+	return
+}
+
+// ************************************************************
+// ************************************************************
+// ************************************************************
+// ************************************************************
+
 func ReadData(file string) error {
-	// open input file
-	//temp := initEpub()
 
 	// open epub
 	book, err := epubgo.Open(file)
