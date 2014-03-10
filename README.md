@@ -29,13 +29,19 @@ File is now located in bookAPI/books/file.json
 ## TODO - Front-End
 
 Create A-Z page
+
 Create Docs page
+
 Create Tutorial page
 
 ## TODO - Back-End
 
 Convert 12 books into json (1/12)
+
 Remove all redundancies
+
 Remove all .epub, .txt files
+
 Hook up to MongoDB to store books
+
 Create api endpoints for all books, books by category
