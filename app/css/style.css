@@ -2,7 +2,9 @@ nav * {
 	line-height: 52px;
 	position: sticky;
 }
-
+.fixed{
+	background-color: white;
+}
 #name {
 	margin-top: 10px;
 }
