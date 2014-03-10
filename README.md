@@ -22,6 +22,10 @@ In your text editor load bookAPI/main.go
 
 Change the file path to the location of your epub to convert.
 
+```go run main.go```
+
+File is now located in bookAPI/books/file.json
+
 ## TODO - Front-End
 
 Create A-Z page
