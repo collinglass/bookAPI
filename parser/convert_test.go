@@ -22,5 +22,5 @@ func TestMetadata(t *testing.T) {
 
 	lang := []string{"en"}
 
-	assert.Equal(t, book.Metadata.language, lang)
+	assert.Equal(t, book.Metadata.Language, lang)
 }
