@@ -2,17 +2,11 @@
 package parser
 
 import (
-	"bufio"
 	"code.google.com/p/go.net/html"
-	"encoding/json"
 	"errors"
-	"fmt"
 	"git.gitorious.org/go-pkg/epubgo.git"
 	"github.com/collinglass/bookAPI/schema"
-	"github.com/collinglass/bookAPI/server/db"
 	"io"
-	"log"
-	"os"
 )
 
 func initEpub() *schema.Book {
@@ -50,7 +44,7 @@ func initEpub() *schema.Book {
 	return temp
 }
 
-func ExtractMetadata(file string, temp *schema.Book) error {
+func extractMetadata(file string, temp *schema.Book) error {
 
 	// open epub
 	book, err := epubgo.Open(file)
@@ -79,7 +73,7 @@ func ExtractMetadata(file string, temp *schema.Book) error {
 	return err
 }
 
-func ExtractData(file string) error {
+func extractData(file string) (*schema.Book, error) {
 	// Initialize temporary epub to be returned
 	temp := initEpub()
 
@@ -103,75 +97,15 @@ func ExtractData(file string) error {
 	defer page.Close()
 
 	// Extract Metadata
-	ExtractMetadata(file, temp)
+	err = extractMetadata(file, temp)
 
 	// parse page
 	parseXHTML(page, temp)
 
-	// Putting in Mongo
-	db.InsertMongo(temp)
-
-	return err
+	return temp, err
 }
 
-func createFile(temp *(schema.Book)) error {
-
-	// Epub object for JSON Marshal
-	epub := *temp
-
-	fmt.Println(epub)
-
-	// JSON Marshal
-	jason, err := json.Marshal(epub)
-
-	// open output file
-	fo, err := os.Create("./server/api/v0.1/books/output.json")
-
-	// close fo on exit and check for its returned error
-	defer func() {
-		err = fo.Close()
-	}()
-
-	// Notify user
-	log.Println("JSONifying...")
-
-	// make a write buffer
-	w := bufio.NewWriter(fo)
-
-	// make a buffer to keep chunks that are read
-	buf := make([]byte, 1024)
-	for {
-		// chunk
-		chunk := 1024
-
-		// jason bytes is empty, break
-		if len(jason) == 0 {
-			break
-		}
-
-		// if length of jason is less than 1024, set chunk
-		if len(jason) < 1024 {
-			chunk = len(jason)
-		}
-
-		// Remove a chunk
-		buf = jason[:chunk]
-		jason = jason[chunk:len(jason)]
-
-		// write a chunk
-		if _, err := w.Write(buf); err != nil {
-			panic(err)
-		}
-	}
-
-	// Flush writer
-	err = w.Flush()
-
-	// Return epub pointer and error
-	return err
-}
-
-func parseXHTML(r io.Reader, epub *(schema.Book)) error {
+func parseXHTML(r io.Reader, epub *schema.Book) error {
 	// Get new Tokenizer
 	d := html.NewTokenizer(r)
 

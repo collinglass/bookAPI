@@ -36,12 +36,34 @@ Create Tutorial page
 
 ## TODO - Back-End
 
-Convert 12 books into json (2/12)
+#### General
 
-Remove all redundancies
+Remove all redundancies (not yet)
 
-Remove all .epub, .txt files
+Remove all .epub, .txt files (not yet)
 
-Hook up to MongoDB to store books
+#### Parser
 
-Create api endpoints for all books, books by category
+Convert 12 books into json (2/12) (easy)
+
+Abstract Epub Extraction (HARD)
+
+Abstract ToJSON/ToXHTML (easy-Medium)
+
+#### DB
+
+Retrieve books from mongoDB to serve to API endpoint (Medium)
+
+Create api endpoints for all books, books by category (Medium)
+
+#### Schema
+
+Abstract epub schema for parser (Medium)
+
+
+
+
+
+
+
+

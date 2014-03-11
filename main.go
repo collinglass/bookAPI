@@ -22,13 +22,12 @@ func main() {
 	buffer.WriteString("textcheck/")
 	buffer.WriteString(*wordPtr)
 	buffer.WriteString(".epub")
-	/*
-		err := parser.ConvertData(buffer.String())
-		if err != nil {
-			panic(err)
-		}
-	*/
-	err = parser.ExtractData(buffer.String())
+
+	//err = parser.InsertBook(buffer.String())
+
+	//err = parser.ConvertToXHTML(buffer.String())
+
+	err = parser.ConvertToJSON(buffer.String())
 	if err != nil {
 		panic(err)
 	}
