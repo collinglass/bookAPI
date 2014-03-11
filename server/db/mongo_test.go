@@ -9,7 +9,7 @@ import (
 )
 
 func TestMongoInsert(t *testing.T) {
-	sess, err := connect()
+	sess, err := Connect()
 
 	if err != nil {
 		fmt.Printf("Can't connect to mongo, go error %v\n", err)
@@ -18,14 +18,14 @@ func TestMongoInsert(t *testing.T) {
 
 	defer sess.Close()
 
-	doc := msg{Id: bson.NewObjectId(), Msg: "Goodby from go"}
-	err = insertMsg(sess, "bookAPI", "test", &doc)
+	doc := Msg{Id: bson.NewObjectId(), Msg: "Goodby from go"}
+	err = InsertMsg(sess, "bookAPI", "test", &doc)
 	if err != nil {
 		fmt.Printf("Can't insert document: %v\n", err)
 		os.Exit(1)
 	}
 
-	var mongoDoc msg
+	var mongoDoc Msg
 	err = sess.DB("bookAPI").C("test").Find(bson.M{}).One(&mongoDoc)
 	if err != nil {
 		fmt.Printf("Got an error finding a doc %v\n")
@@ -36,7 +36,7 @@ func TestMongoInsert(t *testing.T) {
 }
 
 func TestMongoUpdate(t *testing.T) {
-	sess, err := connect()
+	sess, err := Connect()
 
 	if err != nil {
 		fmt.Printf("Can't connect to mongo, go error %v\n", err)
@@ -45,7 +45,7 @@ func TestMongoUpdate(t *testing.T) {
 
 	defer sess.Close()
 
-	var doc msg
+	var doc Msg
 	err = sess.DB("bookAPI").C("test").Find(bson.M{}).One(&doc)
 	if err != nil {
 		fmt.Printf("got an error finding a doc %v\n")
@@ -53,13 +53,13 @@ func TestMongoUpdate(t *testing.T) {
 	}
 
 	update := bson.M{"$inc": bson.M{"count": 1}}
-	err = updateMsg(sess, "bookAPI", "test", &doc, update)
+	err = UpdateMsg(sess, "bookAPI", "test", &doc, update)
 	if err != nil {
 		fmt.Printf("Can't update document %v\n", err)
 		os.Exit(1)
 	}
 
-	var mongoDoc msg
+	var mongoDoc Msg
 	err = sess.DB("bookAPI").C("books").Find(bson.M{}).One(&mongoDoc)
 	if err != nil {
 		fmt.Printf("got an error finding a doc %v\n")
@@ -71,7 +71,7 @@ func TestMongoUpdate(t *testing.T) {
 }
 
 func TestMongoDrop(t *testing.T) {
-	sess, err := connect()
+	sess, err := Connect()
 
 	if err != nil {
 		fmt.Printf("Can't connect to mongo, go error %v\n", err)

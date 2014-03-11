@@ -9,15 +9,16 @@ import (
 	"fmt"
 	"git.gitorious.org/go-pkg/epubgo.git"
 	"github.com/collinglass/bookAPI/schema"
+	"github.com/collinglass/bookAPI/server/db"
 	"io"
 	"log"
 	"os"
 )
 
-func initEpub() *schema.Epub {
+func initEpub() *schema.Book {
 
 	// temporary Epub struct
-	temp := &schema.Epub{
+	temp := &schema.Book{
 		Metadata: schema.Metadata{
 			make([]string, 1),
 			make([]string, 1),
@@ -49,7 +50,7 @@ func initEpub() *schema.Epub {
 	return temp
 }
 
-func ExtractMetadata(file string, temp *schema.Epub) error {
+func ExtractMetadata(file string, temp *schema.Book) error {
 
 	// open epub
 	book, err := epubgo.Open(file)
@@ -107,6 +108,14 @@ func ExtractData(file string) error {
 	// parse page
 	parseXHTML(page, temp)
 
+	// Putting in Mongo
+	db.InsertMongo(temp)
+
+	return err
+}
+
+func createFile(temp *(schema.Book)) error {
+
 	// Epub object for JSON Marshal
 	epub := *temp
 
@@ -124,7 +133,7 @@ func ExtractData(file string) error {
 	}()
 
 	// Notify user
-	log.Println("JSONifying:", file)
+	log.Println("JSONifying...")
 
 	// make a write buffer
 	w := bufio.NewWriter(fo)
@@ -162,7 +171,7 @@ func ExtractData(file string) error {
 	return err
 }
 
-func parseXHTML(r io.Reader, epub *(schema.Epub)) error {
+func parseXHTML(r io.Reader, epub *(schema.Book)) error {
 	// Get new Tokenizer
 	d := html.NewTokenizer(r)
 

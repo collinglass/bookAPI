@@ -2,23 +2,31 @@ package db
 
 import (
 	"fmt"
+	"github.com/collinglass/bookAPI/schema"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
+	"log"
 	"os"
 )
 
-type msg struct {
+var (
+	mongoSession *mgo.Session
+	database     *mgo.Database
+	repo         bookRepo
+)
+
+type Msg struct {
 	Id    bson.ObjectId `bson:"_id"`
-	Msg   string        `bson:"msg"`
+	Msg   string        `bson:"Msg"`
 	Count int           `bson:"count"`
 }
 
-type environment struct {
+type Environment struct {
 	DB         string
 	collection string
 }
 
-func connect() (*mgo.Session, error) {
+func Connect() (*mgo.Session, error) {
 	uri := "mongodb://collinglass:bookAPI@troup.mongohq.com:10099/bookAPI"
 	if uri == "" {
 		fmt.Println("no connection string provided")
@@ -31,14 +39,22 @@ func connect() (*mgo.Session, error) {
 	return sess, err
 }
 
-func insertMsg(sess *mgo.Session, db string, col string, doc *msg) error {
-	collection := sess.DB(db).C(col)
-	err := collection.Insert(doc)
-	return err
-}
-
-func updateMsg(sess *mgo.Session, db string, col string, doc *msg, update interface{}) error {
+func UpdateMsg(sess *mgo.Session, db string, col string, doc *Msg, update interface{}) error {
 	collection := sess.DB(db).C(col)
 	err := collection.Update(bson.M{"_id": doc.Id}, update)
 	return err
+}
+
+func InsertMongo(book *schema.Book) {
+	var err error
+	// Setup the database
+	if mongoSession, err = mgo.Dial("mongodb://collinglass:bookAPI@troup.mongohq.com:10099/bookAPI"); err != nil {
+		panic(err)
+	}
+	log.Println("Connected to mongodb")
+
+	database = mongoSession.DB("bookAPI")
+	repo.Collection = database.C("books")
+
+	repo.Create(book)
 }

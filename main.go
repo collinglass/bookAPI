@@ -9,6 +9,8 @@ import (
 
 func main() {
 
+	var err error
+
 	wordPtr := flag.String("word", "foo", "a string")
 
 	flag.Parse()
@@ -26,7 +28,7 @@ func main() {
 			panic(err)
 		}
 	*/
-	err := parser.ExtractData(buffer.String())
+	err = parser.ExtractData(buffer.String())
 	if err != nil {
 		panic(err)
 	}
