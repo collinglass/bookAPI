@@ -10,8 +10,8 @@ nav * {
 }
 #head {
 /*	 width: auto;
-    height: auto;*/
-    background-color: #3366CC;
+height: auto;*/
+background-color: #3366CC;
 /*    overflow:auto;*/
 }
 
@@ -93,9 +93,9 @@ nav * {
 	bottom: -20px;
 	left: 45%
 }
- .smallpic>img{
-    height:325px;
-    width:275px;
+.smallpic>img{
+	height:325px;
+	width:275px;
 }
 .circle {
 	border-radius: 1000px;
@@ -107,7 +107,7 @@ nav * {
 p{
 
 	font-size: 90%;
-line-height: 1.8em;
+	line-height: 1.8em;
 }
 .hoverup{
 	opacity: 0.7;
@@ -145,3 +145,7 @@ textarea {
 	min-height: 200px !important;
 }
 
+dt {
+	margin-top: 50px;
+	font-weight: bold;
+}
