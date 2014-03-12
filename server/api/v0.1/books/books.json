@@ -3,7 +3,7 @@
 		"id": 1,
 		"title": "The Fingerprint", 
 		"author": "Patricia Wentworth"
-		},
+	},
     {
     	"id": 2, 
     	"name": "All Else Is Folly", 
@@ -12,7 +12,7 @@
     {
     	"id": 3,
     	"name": "Lonely Road",
-    	"author": "Nevil Shute",
+    	"author": "Nevil Shute"
     },
     {
         "id": 4,
@@ -33,7 +33,7 @@
         "id": 7,
         "title": "The Silver Chair", 
         "author": "C. S. Lewis"
-        },
+    },
     {
         "id": 8, 
         "name": "Prince Caspian", 
@@ -42,13 +42,13 @@
     {
         "id": 9,
         "name": "The Voyage of the Dawn Treader",
-        "author": "C. S. Lewis",
+        "author": "C. S. Lewis"
     },
     {
         "id": 10,
         "title": "Le Major Anspech", 
         "author": "Marc Fournier"
-        },
+    },
     {
         "id": 11, 
         "name": "Napoléon", 
@@ -57,13 +57,13 @@
     {
         "id": 12,
         "name": "Comment s'est faite la Restauration de 1814",
-        "author": "Jacques Bainville",
+        "author": "Jacques Bainville"
     },
     {
         "id": 13,
         "title": "L'Horloge qui chante", 
         "author": "Albert Aubert"
-        },
+    },
     {
         "id": 14, 
         "name": "The Last Laird of MacNab", 
@@ -72,6 +72,6 @@
     {
         "id": 15,
         "name": "La Nation canadienne",
-        "author": "Charles Gailly de Taurines",
+        "author": "Charles Gailly de Taurines"
     }
 ]

@@ -29,33 +29,21 @@ Book list: ```/api/books/```
 # Development
 
 1. Install Go with proper [structure](http://golang.org/doc/code.html)
-
 2. ```git clone``` this repository
-
 3. Go to bookAPI/server
-
 4. ```go run server.go```
-
 5. Go to ```localhost:3000```
 
 # New books
 
 1. Follow development but stay in main directory
-
 2. In your text editor load ```/main.go```
-
 3. Change the file path to the location of your epub to convert.
-
 4. ```go run main.go```
-
 	An XHTML file is now in ```textcheck/``` and a JSON file is in ```server/api/v0.1/books/```
-
 5. Tweak the ```parser/extract.go``` file to display the correct JSON.
-
 	Repeat steps 4 and 5 til right.
-
 6. Comment the XHTML, JSON parsing and Uncomment the ```db.InsertBook()``` line in ```main.go```
-
 7. Execute 4.
 
 ## TODO - Front-End
