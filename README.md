@@ -49,7 +49,7 @@ Book list: ```/api/books/```
 ## TODO - Front-End
 
 Create A-Z page:
-	Use Ajax query to get Title and Author for each book
+	1. Use Ajax query to get Title and Author for each book
 		Example: Prince Caspian - C. S. Lewis  |  found at ```/api/books/8```
 
 Create Docs page
