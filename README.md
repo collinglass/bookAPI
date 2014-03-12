@@ -4,6 +4,28 @@ Static website for Proof of Concept of BookAPI
 
 Read the Docs page
 
+# Current Version
+
+Book list: ```/api/books/```
+
+15 books: ```/api/books/{1-15}```
+
+1. The Fingerprint
+2. All Else is Folly
+3. Lonely Road
+4. The Brading Collection
+5. The Last Battle
+6. The Horse and His Boy
+7. The Silver Chair
+8. Prince Caspian
+9. The Voyage of the Dawn Treader
+10. Le Major Anspech
+11. Napoléon
+12. Comment s'est faite la Restauration de 1814
+13. L'Horloge qui chante
+14. The Last Laird of MacNab
+15. La Nation canadienne
+
 # Development
 
 1. Install Go with proper [structure](http://golang.org/doc/code.html)
@@ -32,7 +54,7 @@ Read the Docs page
 
 	Repeat steps 4 and 5 til right.
 
-6. Comment the XHTML, JSON parsing and Uncomment the ```db.InsertBook()``` line
+6. Comment the XHTML, JSON parsing and Uncomment the ```db.InsertBook()``` line in ```main.go```
 
 7. Execute 4.
 
@@ -54,22 +76,6 @@ Remove all .epub, .txt files (not yet)
 
 #### Parser
 
-1. The Fingerprint
-2. All Else is Folly
-3. Lonely Road
-4. The Brading Collection
-5. The Last Battle
-6. The Horse and His Boy
-7. The Silver Chair
-8. Prince Caspian
-9. The Voyage of the Dawn Treader
-10. Le Major Anspech
-11. Napoléon
-12. Comment s'est faite la Restauration de 1814
-13. L'Horloge qui chante
-14. The Last Laird of MacNab
-15. La Nation canadienne
-
 Abstract Epub Extraction (HARD)
 
 Abstract ToJSON/ToXHTML (easy-Medium)
@@ -78,16 +84,9 @@ Abstract ToJSON/ToXHTML (easy-Medium)
 
 Retrieve books from mongoDB to serve to API endpoint (Medium)
 
-Create api endpoints for all books, books by category (Medium)
+API endpoints to Get from Mongo
 
 #### Schema
 
 Abstract epub schema for parser (Medium)
-
-
-
-
-
-
-
 
