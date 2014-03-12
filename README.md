@@ -16,15 +16,23 @@ Go to bookAPI/server
 
 # New books
 
-Follow development but stay in main directory
+1. Follow development but stay in main directory
 
-In your text editor load bookAPI/main.go
+2. In your text editor load ```/main.go```
 
-Change the file path to the location of your epub to convert.
+3. Change the file path to the location of your epub to convert.
 
-```go run main.go```
+4. ```go run main.go```
 
-File is now located in bookAPI/books/file.json
+An XHTML file is now in ```textcheck/``` and a JSON file is in ```server/api/v0.1/books/```
+
+5. Tweak the ```parser/extract.go``` file to display the correct JSON.
+
+Repeat steps 4 and 5 til right.
+
+6. Comment the XHTML, JSON parsing and Uncomment the ```db.InsertBook()``` line
+
+7. Execute 4.
 
 ## TODO - Front-End
 
@@ -44,7 +52,21 @@ Remove all .epub, .txt files (not yet)
 
 #### Parser
 
-Convert 12 books into json (2/12) (easy)
+1. The Fingerprint
+2. All Else is Folly
+3. Lonely Road
+4. The Brading Collection
+5. The Last Battle
+6. The Horse and His Boy
+7. The Silver Chair
+8. Prince Caspian
+9. The Voyage of the Dawn Treader
+10. Le Major Anspech
+11. Napoléon
+12. Comment s'est faite la Restauration de 1814
+13. L'Horloge qui chante
+14. The Last Laird of MacNab
+15. La Nation canadienne
 
 Abstract Epub Extraction (HARD)
 

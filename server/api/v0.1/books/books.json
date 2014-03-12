@@ -1,22 +1,77 @@
-{
-	"category": "all",
-    "books": [
+[
 	{
 		"id": 1,
-		"title": "The Prince", 
-		"author": "Niccolo Machiavelli",
-		"chapters": "5"
+		"title": "The Fingerprint", 
+		"author": "Patricia Wentworth"
 		},
     {
     	"id": 2, 
-    	"name": "The Art of War", 
-    	"author": "Sun Tzu",
-    	"chapters": "13"
+    	"name": "All Else Is Folly", 
+    	"author": "Peregrine Acland"
     },
     {
     	"id": 3,
-    	"name": "The Strange Countess",
-    	"author": "Edgar Wallace",
-    	"chapters": ""
+    	"name": "Lonely Road",
+    	"author": "Nevil Shute",
+    },
+    {
+        "id": 4,
+        "title": "The Brading Collection", 
+        "author": "Patricia Wentworth"
+    },
+    {
+        "id": 5, 
+        "name": "The Last Battle", 
+        "author": "C. S. Lewis"
+    },
+    {
+        "id": 6,
+        "name": "The Horse and his Boy",
+        "author": "C. S. Lewis",
+    },
+    {
+        "id": 7,
+        "title": "The Silver Chair", 
+        "author": "C. S. Lewis"
+        },
+    {
+        "id": 8, 
+        "name": "Prince Caspian", 
+        "author": "C. S. Lewis"
+    },
+    {
+        "id": 9,
+        "name": "The Voyage of the Dawn Treader",
+        "author": "C. S. Lewis",
+    },
+    {
+        "id": 10,
+        "title": "Le Major Anspech", 
+        "author": "Marc Fournier"
+        },
+    {
+        "id": 11, 
+        "name": "Napoléon", 
+        "author": "Jacques Bainville"
+    },
+    {
+        "id": 12,
+        "name": "Comment s'est faite la Restauration de 1814",
+        "author": "Jacques Bainville",
+    },
+    {
+        "id": 13,
+        "title": "L'Horloge qui chante", 
+        "author": "Albert Aubert"
+        },
+    {
+        "id": 14, 
+        "name": "The Last Laird of MacNab", 
+        "author": "Alexander Fraser"
+    },
+    {
+        "id": 15,
+        "name": "La Nation canadienne",
+        "author": "Charles Gailly de Taurines",
     }
-  ]}
+]

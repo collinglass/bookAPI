@@ -40,7 +40,7 @@ type (
 	}
 
 	Chapter struct {
-		Title string   `json:"title,omitempty" bson:"t,omitempty"`
+		Title []string `json:"title" bson:"t"`
 		Text  []string `json:"text,omitempty" bson:"txt,omitempty"`
 	}
 

@@ -11,7 +11,7 @@ func main() {
 
 	var err error
 
-	wordPtr := flag.String("word", "foo", "a string")
+	wordPtr := flag.String("word", "15", "a string")
 
 	flag.Parse()
 
@@ -25,7 +25,7 @@ func main() {
 
 	//err = parser.InsertBook(buffer.String())
 
-	//err = parser.ConvertToXHTML(buffer.String())
+	err = parser.ConvertToXHTML(buffer.String())
 
 	err = parser.ConvertToJSON(buffer.String())
 	if err != nil {

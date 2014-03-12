@@ -38,7 +38,7 @@ func initEpub() *schema.Book {
 	Data := &schema.Data{make([]schema.Chapter, 1)}
 	temp.Data = *Data
 	// Initialize inner chapter
-	Chapter := &schema.Chapter{"", make([]string, 1, 20)}
+	Chapter := &schema.Chapter{make([]string, 1, 3), make([]string, 1, 20)}
 	temp.Data.Chapter[0] = *Chapter
 
 	return temp
@@ -112,6 +112,7 @@ func parseXHTML(r io.Reader, epub *schema.Book) error {
 	// Initialize variables
 	isChap := false
 	isPar := false
+	isTitle := false
 	index := 0
 
 	for {
@@ -131,6 +132,9 @@ func parseXHTML(r io.Reader, epub *schema.Book) error {
 			if token.Data == "h3" {
 				isChap = true
 			}
+			if token.Data == "h4" {
+				isTitle = true
+			}
 			if token.Data == "p" {
 				isPar = true
 			}
@@ -138,8 +142,12 @@ func parseXHTML(r io.Reader, epub *schema.Book) error {
 		// Text token
 		case html.TextToken:
 			if isChap == true {
-				chap := &schema.Chapter{token.Data, make([]string, 1, 20)}
+				chap := &schema.Chapter{make([]string, 1, 3), make([]string, 1, 20)}
+				chap.Title = append(chap.Title, token.Data)
 				epub.Data.Chapter = append(epub.Data.Chapter, *chap)
+			}
+			if isTitle == true {
+				epub.Data.Chapter[index].Title = append(epub.Data.Chapter[index].Title, token.Data)
 			}
 			if isPar == true {
 				epub.Data.Chapter[index].Text = append(epub.Data.Chapter[index].Text, token.Data)
@@ -150,6 +158,9 @@ func parseXHTML(r io.Reader, epub *schema.Book) error {
 			if token.Data == "h3" {
 				isChap = false
 				index++
+			}
+			if token.Data == "h4" {
+				isTitle = false
 			}
 			if token.Data == "p" {
 				isPar = false
