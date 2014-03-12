@@ -48,21 +48,21 @@ Book list: ```/api/books/```
 
 ## TODO - Front-End
 
-Create A-Z page
+Create A-Z page:
+	Use Ajax query to get Title and Author for each book
+		Example: Prince Caspian - C. S. Lewis  |  found at ```/api/books/8```
 
 Create Docs page
+	Add images and such
 
 Create Tutorial page
+	Add Tutorial for creating Web App
 
 ## TODO - Back-End
 
-#### General
-
-Remove all redundancies (not yet)
-
-Remove all .epub, .txt files (not yet)
-
 #### Parser
+
+Write Bash Script to bulk load all epubs into DB (HARD)
 
 Abstract Epub Extraction (HARD)
 
