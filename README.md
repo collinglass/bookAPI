@@ -6,13 +6,15 @@ Read the Docs page
 
 # Development
 
-Install Go with proper [structure](http://golang.org/doc/code.html)
+1. Install Go with proper [structure](http://golang.org/doc/code.html)
 
-```git clone``` this repository
+2. ```git clone``` this repository
 
-Go to bookAPI/server
+3. Go to bookAPI/server
 
-```go run server.go```
+4. ```go run server.go```
+
+5. Go to ```localhost:3000```
 
 # New books
 
@@ -24,11 +26,11 @@ Go to bookAPI/server
 
 4. ```go run main.go```
 
-An XHTML file is now in ```textcheck/``` and a JSON file is in ```server/api/v0.1/books/```
+	An XHTML file is now in ```textcheck/``` and a JSON file is in ```server/api/v0.1/books/```
 
 5. Tweak the ```parser/extract.go``` file to display the correct JSON.
 
-Repeat steps 4 and 5 til right.
+	Repeat steps 4 and 5 til right.
 
 6. Comment the XHTML, JSON parsing and Uncomment the ```db.InsertBook()``` line
 
