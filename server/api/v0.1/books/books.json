@@ -6,12 +6,12 @@
 	},
     {
     	"id": 2, 
-    	"name": "All Else Is Folly", 
+    	"title": "All Else Is Folly", 
     	"author": "Peregrine Acland"
     },
     {
     	"id": 3,
-    	"name": "Lonely Road",
+    	"title": "Lonely Road",
     	"author": "Nevil Shute"
     },
     {
@@ -21,12 +21,12 @@
     },
     {
         "id": 5, 
-        "name": "The Last Battle", 
+        "title": "The Last Battle", 
         "author": "C. S. Lewis"
     },
     {
         "id": 6,
-        "name": "The Horse and his Boy",
+        "title": "The Horse and his Boy",
         "author": "C. S. Lewis"
     },
     {
@@ -36,12 +36,12 @@
     },
     {
         "id": 8, 
-        "name": "Prince Caspian", 
+        "title": "Prince Caspian", 
         "author": "C. S. Lewis"
     },
     {
         "id": 9,
-        "name": "The Voyage of the Dawn Treader",
+        "title": "The Voyage of the Dawn Treader",
         "author": "C. S. Lewis"
     },
     {
@@ -51,12 +51,12 @@
     },
     {
         "id": 11, 
-        "name": "Napoléon", 
+        "title": "Napoléon", 
         "author": "Jacques Bainville"
     },
     {
         "id": 12,
-        "name": "Comment s'est faite la Restauration de 1814",
+        "title": "Comment s'est faite la Restauration de 1814",
         "author": "Jacques Bainville"
     },
     {
@@ -66,12 +66,12 @@
     },
     {
         "id": 14, 
-        "name": "The Last Laird of MacNab", 
+        "title": "The Last Laird of MacNab", 
         "author": "Alexander Fraser"
     },
     {
         "id": 15,
-        "name": "La Nation canadienne",
+        "title": "La Nation canadienne",
         "author": "Charles Gailly de Taurines"
     }
 ]
