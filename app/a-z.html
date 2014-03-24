@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/foundation.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <script src="js/vendor/modernizr.js"></script>
+  <script src="js/vendor/jquery.js"></script>
 </head>
 
 <body>
@@ -23,78 +24,39 @@
               <li><a href="a-z.html">A-Z</a><li>
                 <li><a href="docs.html">Docs</a></li>
                 <li><a href="tutorials.html">Tutorial</a></li>
-                <!--  <li>Contact</li> -->
-                <!--   <li>About</li> -->
               </ul>
             </nav>
           </div>
         </div>
       </div> <!-- div for sticky nav bar -->
     </header>
+    
+    <table class = "mc">
+      <tr>
+        <th>ID</th>
+        <th>Author</th>
+        <th>title</th>
+      </tr>
+    </table>
 
-    <div class = "row text-center">
-      <div class = "large-12 columns mmargin-top mmargin">
-        <ul class="large-block-grid-3">
-          <li><dl><dt>A</dt><dd>Aladin</dd></dl>
-          </li>
-          <li><dl><dt>B</dt><dd>Bobby</dd></dl>
-          </li>
-          <li><dl><dt>C</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>D</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>E</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>F</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>G</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>H</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>I</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>J</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>K</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>L</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>M</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>N</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>O</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>P</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>Q</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>R</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>S</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>T</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>U</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>V</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>W</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>X</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>Y</dt><dd></dd></dl>
-          </li>
-          <li><dl><dt>Z</dt><dd></dd></dl>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <script src="js/vendor/jquery.js"></script>
+    <script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+      $.getJSON("/api/books/",
+        function (book) {
+          var tr;
+          for (var i = 0; i < book.length; i++) {
+            tr = $('<tr/>');
+            tr.append("<td>" + book[i].id + "</td>");
+            tr.append("<td>" + book[i].author + "</td>");
+            tr.append("<td>" + book[i].title + "</td>");
+            $('table').append(tr);
+          }
+        });
+    });
+    </script>
     <script src="js/foundation.min.js"></script>
     <script>
     $(document).foundation();
     </script>
   </body>
-  </html>
+</html>
