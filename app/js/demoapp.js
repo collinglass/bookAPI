@@ -1,7 +1,8 @@
 $(document).foundation();
 $(document).ready(function () {
   $.getJSON("/api/books/1", function (book) {
-      window.console.log(book)
+    "use strict";
+      window.console.log(book);
       $demoapp = $('.demoapp');
       $demoapp.append("<h1>"+book.meta.title[0]+"</h1>");
       $demoapp.append("<h5>"+book.meta.creator[0]+"</h5>");

@@ -1,7 +1,7 @@
 $(document).foundation();
 $(document).ready(function () {
-  $.getJSON("/api/books/",
-    function (books) {
+  $.getJSON("/api/books/", function (books) {
+      window.console.log(books);
       var tr;
       $table = $('table');
       for (var i = 0; i < books.length; i++) {
