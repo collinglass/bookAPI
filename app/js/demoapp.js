@@ -3,14 +3,13 @@ $(document).ready(function() {
 	$booklink = $(".book");
 	$booklink.each(function() {
 		$this = $(this);
-		var show = $this.data("value")
+		var show = $this.data("value");
 		window.console.log(show);
 		$this.click(function() {
 			booker(show);
 		})
 	});
 });
-
 var booker = function (id) {
 	$.getJSON("/api/books/"+id, function (book) {
 		window.console.log(book.data.chapter);
@@ -34,18 +33,3 @@ var booker = function (id) {
 	});
 
 };
-
-
-
-// $(document).foundation();
-// $(document).ready(function() {
-// 	$booklink = $(".book");
-// 	var i = 0;
-// 	$booklink.each(function() {
-// 		window.console.log();
-// 		$(this).click(function() {
-// 			booker(i);
-// 		});
-// 		i++;
-// 	});
-// });
