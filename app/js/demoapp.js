@@ -14,6 +14,7 @@ var booker = function (id) {
 	$.getJSON("/api/books/"+id, function (book) {
 		window.console.log(book.data.chapter);
 		$demoapp = $('.demoapp');
+		$demoapp.empty();
 		$demoapp.append("<h1>"+book.meta.title+"</h1>");
 		$demoapp.append("<h5>"+book.meta.creator+"</h5>");
 		for (var p in book.data.part) {
