@@ -1,6 +1,14 @@
 $(document).foundation();
 $(document).ready(function() {
-	booker(1);
+	$booklink = $(".book");
+	$booklink.each(function() {
+		$this = $(this);
+		var show = $this.data("value")
+		window.console.log(show);
+		$this.click(function() {
+			booker(show);
+		})
+	});
 });
 
 var booker = function (id) {
@@ -11,7 +19,6 @@ var booker = function (id) {
 		$demoapp.append("<h5>"+book.meta.creator+"</h5>");
 		for (var p in book.data.part) {
 			for (var chap in book.data.part[p].chapter) {
-				window.console.log("hello");
 				$demoapp.append("<p>"+book.data.part[p].chapter[chap].title+"</p>");
 				for (var par in book.data.part[p].chapter[chap].text) {
 					$demoapp.append("<p>"+book.data.part[p].chapter[chap].text[par]+"</p>");
@@ -19,7 +26,6 @@ var booker = function (id) {
 			};
 		}
 		for (var chap in book.data.chapter) {
-			window.console.log("hello");
 			$demoapp.append("<p>"+book.data.chapter[chap].title+"</p>");
 			for (var par in book.data.chapter[chap].text) {
 				$demoapp.append("<p>"+book.data.chapter[chap].text[par]+"</p>");
@@ -28,3 +34,18 @@ var booker = function (id) {
 	});
 
 };
+
+
+
+// $(document).foundation();
+// $(document).ready(function() {
+// 	$booklink = $(".book");
+// 	var i = 0;
+// 	$booklink.each(function() {
+// 		window.console.log();
+// 		$(this).click(function() {
+// 			booker(i);
+// 		});
+// 		i++;
+// 	});
+// });
