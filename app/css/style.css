@@ -42,11 +42,11 @@ background-color: #3366CC;
 	color: #fff;
 }
 
-#contact{
+.contact-wrapper{
 	background-color: #191919;
 }
 
-#contact * {
+.contact-wrapper * {
 	color: #fff;
 }
 
