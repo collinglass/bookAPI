@@ -177,3 +177,6 @@ dt {
   margin-right: auto ;
 
 }
+.col:nth-child(even) {  
+  color: #ccc;
+}
