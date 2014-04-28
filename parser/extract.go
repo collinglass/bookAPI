@@ -7,6 +7,7 @@ import (
 	"git.gitorious.org/go-pkg/epubgo.git"
 	"github.com/collinglass/bookAPI/schema"
 	"io"
+	"strings"
 )
 
 func initEpub() *schema.Book {
@@ -38,7 +39,7 @@ func initEpub() *schema.Book {
 	Data := &schema.Data{make([]schema.Chapter, 1)}
 	temp.Data = *Data
 	// Initialize inner chapter
-	Chapter := &schema.Chapter{make([]string, 1, 3), make([]string, 1, 20)}
+	Chapter := &schema.Chapter{make([]string, 0), make([]string, 0)}
 	temp.Data.Chapter[0] = *Chapter
 
 	return temp
@@ -114,6 +115,7 @@ func parseXHTML(r io.Reader, epub *schema.Book) error {
 	isPar := false
 	isTitle := false
 	index := 0
+	isEmpty := false
 
 	for {
 		// get next token
@@ -141,17 +143,21 @@ func parseXHTML(r io.Reader, epub *schema.Book) error {
 
 		// Text token
 		case html.TextToken:
-			if isChap == true {
-				chap := &schema.Chapter{make([]string, 1, 3), make([]string, 1, 20)}
+			if len(strings.Fields(token.Data)) == 0 {
+				isEmpty = true
+			}
+			if isChap && !isEmpty {
+				chap := &schema.Chapter{make([]string, 0), make([]string, 0)}
 				chap.Title = append(chap.Title, token.Data)
 				epub.Data.Chapter = append(epub.Data.Chapter, *chap)
 			}
-			if isTitle == true {
+			if isTitle && !isEmpty {
 				epub.Data.Chapter[index].Title = append(epub.Data.Chapter[index].Title, token.Data)
 			}
-			if isPar == true {
+			if isPar && !isEmpty {
 				epub.Data.Chapter[index].Text = append(epub.Data.Chapter[index].Text, token.Data)
 			}
+			isEmpty = false
 
 		// End token
 		case html.EndTagToken:

@@ -20,6 +20,7 @@ func main() {
 	var buffer bytes.Buffer
 
 	buffer.WriteString("textcheck/")
+	buffer.WriteString("MVP/")
 	buffer.WriteString(*wordPtr)
 	buffer.WriteString(".epub")
 
