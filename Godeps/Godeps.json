@@ -25,6 +25,14 @@
 			"ImportPath": "labix.org/v2/mgo",
 			"Comment": "263",
 			"Rev": "gustavo@niemeyer.net-20140126000127-qe9fwt48ceby11ts"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "9ede152210fa25c1377d33e867cb828c19316445"
+		},
+		{
+			"ImportPath": "github.com/gorilla/handlers",
+			"Rev": "78515eaa93ac9fa1b864f61ef263804af16fb944"
 		}
 	]
 }
