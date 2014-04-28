@@ -1,0 +1,30 @@
+{
+	"ImportPath": "github.com/collinglass/bookAPI",
+	"GoVersion": "go1.2",
+	"Deps": [
+		{
+			"ImportPath": "code.google.com/p/go-charset/charset",
+			"Comment": "null-32",
+			"Rev": "ebbeafdc430eb6c7e44e9a730a38eaff4c56ba3a"
+		},
+		{
+			"ImportPath": "code.google.com/p/go-charset/data",
+			"Comment": "null-32",
+			"Rev": "ebbeafdc430eb6c7e44e9a730a38eaff4c56ba3a"
+		},
+		{
+			"ImportPath": "code.google.com/p/go.net/html",
+			"Comment": "null-80",
+			"Rev": "ac736dc3460205771f2d215fecb6c4c802f71d7c"
+		},
+		{
+			"ImportPath": "git.gitorious.org/go-pkg/epubgo.git",
+			"Rev": "74d2527df9d62af865d1e103d8e9f0d0df22e78b"
+		},
+		{
+			"ImportPath": "labix.org/v2/mgo",
+			"Comment": "263",
+			"Rev": "gustavo@niemeyer.net-20140126000127-qe9fwt48ceby11ts"
+		}
+	]
+}

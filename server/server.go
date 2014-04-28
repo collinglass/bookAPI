@@ -20,7 +20,7 @@ func main() {
 	http.Handle("/", logHandler(http.FileServer(http.Dir("../app/"))))
 
 	log.Println("Listening...")
-	panic(http.ListenAndServe(":3000", nil))
+	panic(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 }
 
 func logHandler(h http.Handler) http.Handler {
