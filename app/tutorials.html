@@ -12,10 +12,9 @@
 
 <body>
   <header>
-    <header>
     <div class = "fixed">  <!-- made nav bar sticky -->
       <div class = "row">
-        <div class = "large-3 small-3 columns"> 
+        <div class = "large-3 small-3 columns">
           <h4 id ="name" class ="nowrap"><a href="index.html">Book ÄPÏ</a></h4>
         </div>
         <div class ="large-9 large-9 columns">
@@ -25,14 +24,78 @@
               <li><a href="docs.html">Docs</a></li>
               <li><a href="demo.html">Demo</a></li>
               <li><a href="tutorials.html">Tutorial</a></li>
+               <!--  <li>Contact</li> -->
+              <!--   <li>About</li> -->
             </ul>
           </nav>
         </div>
       </div>
     </div> <!-- div for sticky nav bar -->
   </header>
-        <div class="az-list">
+    <!-- Three-up Content Blocks -->
+
+    <div class="row content bmargin-top ">
+      <h1>How to use BookAPI in your app</h1><br>
+
+
+      <div class="large-12 columns">
+        <h3>Step 1</h3>
+        <p>Go to A-Z. Pick a book. See this.</p>
+        <img class ="im1"src="img/tut5.jpg" />
+
+        <p>This is the raw JSON at the API endpoint. Take a look at the
+          structure and all the naming conventions. You should always take a
+          look at the books your using, some are structured slightly differently:
+          Some books have parts or acts, while others are only chapters.</p>
+      </div>
+
+      <div class="large-12 columns mmargin-top">
+        <h3>Step 2</h3>
+        <p>In HTML file. Write This.</p>
+        <img class = "im2" src="img/tut1.jpg" />
+        <p>And This.</p>
+        <img class = "im2" src="img/tut2.jpg" />
+
+        <p>The article tag is where the book text will go and the anchor tag
+          will load the chosen book. Once you complete this tutorial, change
+          the data-value and see a different book be displayed (currently only
+          1-15 work).</p>
+      </div>
+
+      <div class="large-12 columns mmargin-top">
+        <h3>Step 3</h3>
+        <p>Make JS file. Write This.</p>
+        <img class = "im2" src="img/tut3.jpg" />
+        <p>And This.</p>
+        <img class = "im2" src="img/tut4.jpg" />
+
+        <p>This example uses JQuery. We first add an event listener to each
+        anchor tag which calls the function booker and passes the data value.
+        We use the getJSON function to issue a GET request on the API endpoint
+        and use the returned object in our HTML. If you look closely you'll
+        notice the separate "for" instructions are for two different types of
+        books I've noticed.</p>
+      </div>
+
     </div>
+
+    <footer class="row">
+      <div class="large-12 columns">
+        <hr />
+        <div class="row">
+          <div class="large-6 columns">
+            <p>© TG</p>
+          </div>
+          <div class="large-6 columns">
+            <ul class="inline-list right">
+              <li><a href="#">Facebook</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Github</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
@@ -40,4 +103,4 @@
     $(document).foundation();
     </script>
   </body>
-  </html>
+</html>

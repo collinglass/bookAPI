@@ -12,7 +12,7 @@ $(document).ready(function() {
 });
 var booker = function (id) {
 	$.getJSON("/api/books/"+id, function (book) {
-		window.console.log(book.data.chapter);
+		window.console.log(book);
 		$demoapp = $('.demoapp');
 		$demoapp.empty();
 		$demoapp.append("<h1>"+book.meta.title+"</h1>");
