@@ -17,7 +17,7 @@ func main() {
 	r.HandleFunc("/api/books/{id:[0-9]+}", ctrl.GetBook()).Methods("GET")
 
 	http.Handle("/api/", r)
-	http.Handle("/", logHandler(http.FileServer(http.Dir("../app/"))))
+	http.Handle("/", logHandler(http.FileServer(http.Dir("./app/"))))
 
 	log.Println("Listening...")
 	panic(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
