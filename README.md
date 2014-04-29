@@ -48,20 +48,17 @@ Book list: ```/api/books/```
 
 ## TODO - Front-End
 
-Create Tutorial page
-	Add Tutorial for creating Web App
+Update landing page
 
 ## TODO - Back-End
 
 #### Parser
 
-Write Bash Script to bulk load all epubs into DB (HARD)
-
-Abstract Epub Extraction (HARD)
-
-Abstract ToJSON/ToXHTML (easy-Medium)
+Write Bash Script to bulk parse all epubs
 
 #### DB
+
+<b>MongoDB put on hold: serving raw JSON files to provide easier way to update ugly JSON!</b>
 
 Retrieve books from mongoDB to serve to API endpoint (Medium)
 
@@ -70,4 +67,3 @@ API endpoints to Get from Mongo
 #### Schema
 
 Abstract epub schema for parser (Medium)
-
