@@ -58,7 +58,7 @@ Write Bash Script to bulk parse all epubs
 
 #### DB
 
-<b>MongoDB put on hold: serving raw JSON files to provide easier way to update ugly JSON!</b>
+<b>MongoDB put on hold:</b> serving raw JSON files to provide easier way to update ugly JSON!
 
 Retrieve books from mongoDB to serve to API endpoint (Medium)
 
