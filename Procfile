@@ -1,1 +1,1 @@
-web: bookAPI
+web: server
