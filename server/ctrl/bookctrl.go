@@ -17,7 +17,7 @@ func BookCtrl() http.HandlerFunc {
 
 func GetBookList() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		filepath := "./api/v0.1/books/books.json"
+		filepath := "./server/api/v0.1/books/books.json"
 
 		fi, err := os.Open(filepath)
 		if err != nil {
@@ -58,7 +58,7 @@ func GetBook() http.HandlerFunc {
 		dir, file := path.Split(r.URL.String())
 		fmt.Printf("Path: %v File: %v\n", dir, file)
 
-		filepath := "./api/v0.1/books/" + file + ".json"
+		filepath := "./server/api/v0.1/books/" + file + ".json"
 
 		fmt.Printf(filepath)
 
