@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"github.com/collinglass/bookAPI/parser"
 )
 
 func main() {
@@ -26,9 +25,9 @@ func main() {
 
 	//err = parser.InsertBook(buffer.String())
 
-	err = parser.ConvertToXHTML(buffer.String())
+	err = ConvertToXHTML(buffer.String())
 
-	err = parser.ConvertToJSON(buffer.String())
+	err = ConvertToJSON(buffer.String())
 	if err != nil {
 		panic(err)
 	}
