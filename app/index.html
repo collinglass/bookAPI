@@ -126,27 +126,29 @@
                     <h2 class="slim">Our Address</h2>
                     <p class ="tertiary">Dico iusto te usu, vel at discere singulis. Mel aliquip regione cotidieque ex.</p>
                 </div>
-                <div class="large-6 column">
-                    <input class ="trans" type ="text" placeholder ="your name..">
-                </div>
-                <div class="large-6 column">
-                    <input class ="trans" type ="text" placeholder ="your email..">
-                </div>
-                <div class="large-6 column">
-                    <input class="trans" type ="text" placeholder ="city..">
-                </div>
-                <div class="large-6 column">
-                    <input class ="trans" type ="text" placeholder ="topic..">
-                </div>
-                <div class ="large-12 columns">
-                    <textarea class="trans" placeholder = "content.." name="" id = "" cols = "30" rows="10"></textarea>
-                </div>
-                <div class = "large-3 right columns text-right bmargin">
-                    <button>Submit</button>
-                </div>
-                <div class ="large-12 columns text-center tertiary">
-                    <em></em>
-                </div>
+                <form action="mailto:marktamer@hotmail.com" method="post" name="hgmailer" enctype="text/plain"> 
+                    <div class="large-6 column">
+                        <input class ="trans white" type ="text" placeholder ="your name..">
+                    </div>
+                    <div class="large-6 column">
+                        <input class ="trans white" type ="text" placeholder ="your email..">
+                    </div>
+                    <div class="large-6 column">
+                        <input class="trans white" type ="text" placeholder ="city..">
+                    </div>
+                    <div class="large-6 column">
+                        <input class ="trans white" type ="text" placeholder ="topic..">
+                    </div>
+                    <div class ="large-12 columns">
+                        <textarea class="trans white" placeholder = "content.." name="" id = "" cols = "30" rows="10"></textarea>
+                    </div>
+                    <div class = "large-3 right columns text-right bmargin">
+                        <button value="Send">Submit</button>
+                    </div>
+                    <div class ="large-12 columns text-center tertiary">
+                        <em></em>
+                    </div>
+                </form>
             </div>
         </section>
         <script src="js/vendor/jquery.js"></script>
@@ -154,3 +156,5 @@
         <script>$(document).foundation();</script>
     </body>
 </html>
+
+

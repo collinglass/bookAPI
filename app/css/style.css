@@ -180,3 +180,6 @@ dt {
 .col:nth-child(even) {  
   color: #ccc;
 }
+.white{
+	color: white !important;
+}
