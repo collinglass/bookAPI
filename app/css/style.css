@@ -6,6 +6,10 @@
 	margin: 100px auto;
 }
 
+nav{
+	float: right;
+}
+
 nav * {
 	line-height: 52px;
 	position: sticky;
@@ -182,4 +186,32 @@ dt {
 }
 .white{
 	color: white !important;
+}
+
+@media only screen and (max-width: 768px){
+	#name{
+		text-align: center;
+		border-bottom: 3px solid #e0e0e0;
+		padding: 20px;
+	}
+	.inline-list{
+		margin: 0;
+	}
+	nav{
+		float: left !important;
+		width: 100%;
+		margin-top: 20px;
+		margin-bottom: 20px; 
+	}
+	nav li{
+		float: none;
+		clear: both;
+		margin-left: 0 !important;
+		width: 100%;
+		text-align: center;
+		font-weight: 700;
+	}
+	nav li:hover {
+		background-color: #e0e0e0;
+	}
 }
